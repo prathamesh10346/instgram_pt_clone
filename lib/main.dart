@@ -6,6 +6,7 @@ import 'package:instgram_pt_clone/responsive/mob_screen_layout.dart';
 import 'package:instgram_pt_clone/responsive/responsive_layout_screen.dart';
 import 'package:instgram_pt_clone/responsive/web_screen_layout.dart';
 import 'package:instgram_pt_clone/screen/login_screen.dart';
+import 'package:instgram_pt_clone/screen/singup_screen.dart';
 import 'package:instgram_pt_clone/utils/color.dart';
 
 void main() async {
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
       //   mobileScreenLayout: mobileScreenLayout(),
       //   webScreenLayout: webScreenLayout(),
       // ));
-      home: LoginScreen(),
+      home: SingupScreen(),
     );
   }
 }
