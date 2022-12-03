@@ -1,5 +1,10 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:instgram_pt_clone/resources/auth_method.dart';
+import 'package:instgram_pt_clone/utils/util.dart';
 
 import '../Widgets/text_field_input.dart';
 import '../utils/color.dart';
@@ -16,6 +21,7 @@ class _SingupScreenState extends State<SingupScreen> {
   final TextEditingController _paswordController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
+  Uint8List? _image;
   @override
   void dispose() {
     // TODO: implement dispose
@@ -24,6 +30,13 @@ class _SingupScreenState extends State<SingupScreen> {
     _paswordController.dispose();
     _bioController.dispose();
     _usernameController.dispose();
+  }
+
+  void selectImages() async {
+    Uint8List im = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = im;
+    });
   }
 
   @override
@@ -54,16 +67,21 @@ class _SingupScreenState extends State<SingupScreen> {
               ),
               Stack(
                 children: [
-                  const CircleAvatar(
-                    radius: 64,
-                    backgroundImage: NetworkImage(
-                        "https://images.unsplash.com/photo-1670004826168-f579520f5e4c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80"),
-                  ),
+                  _image != null
+                      ? CircleAvatar(
+                          radius: 64,
+                          backgroundImage: MemoryImage(_image!),
+                        )
+                      : const CircleAvatar(
+                          radius: 64,
+                          backgroundImage: NetworkImage(
+                              "https://i.pinimg.com/736x/f1/0f/f7/f10ff70a7155e5ab666bcdd1b45b726d.jpg"),
+                        ),
                   Positioned(
                     bottom: -10,
                     left: 80,
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: selectImages,
                       icon: const Icon(Icons.add_a_photo),
                     ),
                   ),
@@ -85,7 +103,7 @@ class _SingupScreenState extends State<SingupScreen> {
                 textEditingController: _emailController,
                 hintText: "Enter your email",
                 textInputType: TextInputType.emailAddress,
-                isPass: true,
+                // isPass: true,
               ),
               const SizedBox(
                 height: 24,
@@ -108,10 +126,17 @@ class _SingupScreenState extends State<SingupScreen> {
               const SizedBox(
                 height: 24,
               ),
-              GestureDetector(
-                onTap: () {},
+              InkWell(
+                onTap: () async {
+                  String res = await AuthMethods().singUpUser(
+                      email: _emailController.text,
+                      password: _paswordController.text,
+                      username: _usernameController.text,
+                      bio: _bioController.text);
+                  print(res);
+                },
                 child: Container(
-                  child: const Text("Log-in"),
+                  child: const Text("Sign-in"),
                   width: double.infinity,
                   alignment: Alignment.center,
                   padding: const EdgeInsets.symmetric(vertical: 12),
@@ -143,7 +168,10 @@ class _SingupScreenState extends State<SingupScreen> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 8),
-                  )
+                  ),
+                  const SizedBox(
+                    height: 22,
+                  ),
                 ],
               )
             ],
