@@ -39,6 +39,22 @@ class _SingupScreenState extends State<SingupScreen> {
     });
   }
 
+  void signUpUser() async {
+    String res = await AuthMethods().singUpUser(
+      email: _emailController.text,
+      password: _paswordController.text,
+      username: _usernameController.text,
+      bio: _bioController.text,
+      file: _image!,
+    );
+    if (res != 'success') {
+      ShowSnackBar(context, res);
+    } else
+      () {};
+
+    print(res);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,14 +143,7 @@ class _SingupScreenState extends State<SingupScreen> {
                 height: 24,
               ),
               InkWell(
-                onTap: () async {
-                  String res = await AuthMethods().singUpUser(
-                      email: _emailController.text,
-                      password: _paswordController.text,
-                      username: _usernameController.text,
-                      bio: _bioController.text);
-                  print(res);
-                },
+                onTap: signUpUser,
                 child: Container(
                   child: const Text("Sign-in"),
                   width: double.infinity,
