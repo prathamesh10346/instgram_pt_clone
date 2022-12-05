@@ -30,24 +30,25 @@ class AuthMethods {
 
         // print(cred.user.displayName)
 
-        _firestore.collection("users").doc(cred.user!.uid).set({
+        // _firestore.collection('users').doc(cred.user!.uid).set({
+        //   'username': username,
+        //   'uid': cred.user!.uid,
+        //   'email': email,
+        //   'bio': bio,
+        //   'follower': [],
+        //   'following': [],
+        //   'photourl': photourl,
+        // });
+
+        await _firestore.collection('users').add({
           'username': username,
           'uid': cred.user!.uid,
           'email': email,
           'bio': bio,
           'follower': [],
           'following': [],
-          'photourl': photourl,
         });
-
-        // await _firestore.collection('users').add({ 'username': username,
-        //   'uid': cred.user!.uid,
-        //   'email': email,
-        //   'bio': bio,
-        //   'follower': [],
-        //   'following': [],});
         res = "success";
-        ;
       }
     }
     // }on FirebaseAuthException catch(err){
