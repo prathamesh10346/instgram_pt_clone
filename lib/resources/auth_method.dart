@@ -28,18 +28,6 @@ class AuthMethods {
         String photourl = await StorageMethods()
             .uploudImageToStorage("profilePics", file, false);
 
-        // print(cred.user.displayName)
-
-        // _firestore.collection('users').doc(cred.user!.uid).set({
-        //   'username': username,
-        //   'uid': cred.user!.uid,
-        //   'email': email,
-        //   'bio': bio,
-        //   'follower': [],
-        //   'following': [],
-        //   'photourl': photourl,
-        // });
-
         await _firestore.collection('users').add({
           'username': username,
           'uid': cred.user!.uid,
